@@ -62,11 +62,11 @@ export default function TreasuryPage() {
               "border-[1px] border-agyellow px-[24px] px-[16px] w-full",
             )}
           >
+            <h4 className="uppercase font-bold text-agyellow text-[16px] leading-[24px] font-sans font-extrabold">
+              Fuel Cell Balance:
+            </h4>
             {account.isConnected ? (
               <>
-                <h4 className="uppercase font-bold text-agyellow text-[16px] leading-[24px] font-sans font-extrabold">
-                  Fuel Cell Balance:
-                </h4>
                 <div className="flex items-center justify-between">
                   <span className="text-agwhite text-[32px] font-extrabold">
                     {userMinted}
@@ -91,11 +91,15 @@ export default function TreasuryPage() {
                   </motion.div>
                 </div>
               </>
-            ) : // <h4 className="font-bold text-agyellow">
-            //   Total Yield Accumulated:{" "}
-            //   <span className="text-agwhite">{2} $DARK</span>
-            // </h4>
-            null}
+            ) : (
+              // <h4 className="font-bold text-agyellow">
+              //   Total Yield Accumulated:{" "}
+              //   <span className="text-agwhite">{2} $DARK</span>
+              // </h4>
+              <span className="text-agwhite text-[16px] font-semibold">
+                Connect your wallet to check your Fuel Cell balance
+              </span>
+            )}
           </div>
         </div>
         {/* Right side */}
