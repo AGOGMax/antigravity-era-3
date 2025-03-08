@@ -192,7 +192,7 @@ export default function LotteryPage() {
                 "text-[32px] leading-[32px] lg:text-[64px] lg:leading-[64px] font-sans font-extrabold",
               )}
             >
-              Check To See If You've Won!
+              Check To See If You&apos;ve Won!
               <PiArrowFatDownFill className="lg:-rotate-90 text-[32px] lg:text-[72px] font-extrabold inline mb-2 ml-[20px]" />
             </h1>
           </div>
