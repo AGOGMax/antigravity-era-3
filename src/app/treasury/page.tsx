@@ -36,14 +36,14 @@ export default function TreasuryPage() {
         className={cn(
           "flex flex-col items-center justify-center gap-[50px] z-[1]",
           "lg:flex lg:flex-row lg:justify-start lg:items-start gap-[30px]",
-          "pt-[130px] md:pt-[80px]"
+          "pt-[130px] md:pt-[80px]",
         )}
       >
         {/* Left side */}
         <div
           className={cn(
             "flex flex-col justify-start items-start gap-[8px]",
-            "p-[8px] rounded-[6px]",
+            "p-[16px] rounded-[6px]",
             "bg-agblack/70 backdrop-blur-lg",
             "text-agwhite",
           )}
@@ -56,16 +56,47 @@ export default function TreasuryPage() {
           >
             Treasury
           </h1>
-          {account.isConnected ? (
-            <h4 className="font-bold text-agyellow">
-              Fuel Cell Balance:{" "}
-              <span className="text-agwhite">{userMinted} Fuel Cells</span>
-            </h4>
-          ) : // <h4 className="font-bold text-agyellow">
-          //   Total Yield Accumulated:{" "}
-          //   <span className="text-agwhite">{2} $DARK</span>
-          // </h4>
-          null}
+          <div
+            className={cn(
+              Shapes.dataCard,
+              "border-[1px] border-agyellow px-[24px] px-[16px] w-full",
+            )}
+          >
+            {account.isConnected ? (
+              <>
+                <h4 className="uppercase font-bold text-agyellow text-[16px] leading-[24px] font-sans font-extrabold">
+                  Fuel Cell Balance:
+                </h4>
+                <div className="flex items-center justify-between">
+                  <span className="text-agwhite text-[32px] font-extrabold">
+                    {userMinted}
+                  </span>
+                  <motion.div
+                    initial="initial"
+                    whileHover="hover"
+                    className={cn(
+                      Gradients.lightBlue,
+                      Shapes.pill,
+                      "text-agblack font-semibold font-general-sans",
+                    )}
+                  >
+                    <Image
+                      src={IMAGEKIT_ICONS.FUEL_CELL}
+                      alt="Fuel Cell"
+                      width={24}
+                      height={24}
+                      className="w-[24px] h-[24px] mix-blend-multiply rounded-full"
+                    />
+                    <HoverTextAnimation.Fading text="Fuel Cells" />
+                  </motion.div>
+                </div>
+              </>
+            ) : // <h4 className="font-bold text-agyellow">
+            //   Total Yield Accumulated:{" "}
+            //   <span className="text-agwhite">{2} $DARK</span>
+            // </h4>
+            null}
+          </div>
         </div>
         {/* Right side */}
         <div className="flex flex-col justify-center items-center gap-[24px]">
