@@ -6,6 +6,8 @@ export class Gradients {
 
   static redToBlue = "bg-gradient-to-tr from-brred to-brblue";
 
+  static blueToRed = "bg-gradient-to-r from-brblue to-brred";
+
   static tableBlue = "bg-gradient-to-b from-[#0A1133] to-[#142266]";
 
   static lightBlue = "bg-gradient-to-b from-[#B4EBF8] to-[#789DFA]";
