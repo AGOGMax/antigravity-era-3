@@ -163,7 +163,7 @@ export default function UnwrapPage() {
           <h1
             className={cn(
               Gradients.whiteGradientText,
-              "text-[64px] leading-[64px] font-sans font-extrabold",
+              "text-[64px] leading-[64px] font-sans font-extrabold p-2",
             )}
           >
             Vaporize
@@ -197,7 +197,7 @@ export default function UnwrapPage() {
                   )}
                 >
                   <Input
-                    className="w-[10ch]"
+                    className="w-[10ch] !text-[16px] md:!text-[32px]"
                     inputValue={inputValue}
                     setInputValue={setInputValue}
                     max={totalFuelCells}
