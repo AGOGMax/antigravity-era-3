@@ -224,7 +224,7 @@ export default function UnwrapPage() {
                         <HoverTextAnimation.Fading text="Fuel&nbsp;Cells" />
                       </span>
                     </motion.div>
-                    <p className=" text-s font-semibold my-3 flex items-start gap-x-1 bg-opacity-[30%] bg-agblack px-4 py-2 rounded-lg">
+                    <p className=" text-s font-semibold my-3 flex items-start gap-x-1 bg-opacity-[8%] bg-agyellow px-4 py-2 rounded-lg">
                       Max:{" "}
                       <span className="text-agyellow font-bold flex items-center gap-x-1">
                         {dataLoading ? (
