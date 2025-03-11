@@ -63,7 +63,7 @@ export default function TreasuryPage() {
             )}
           >
             <h4 className="uppercase font-bold text-agyellow text-[16px] leading-[24px] font-sans font-extrabold">
-              Fuel Cell Balance:
+              Total Fuel Cells:
             </h4>
             {account.isConnected ? (
               <>
