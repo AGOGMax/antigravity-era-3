@@ -178,7 +178,7 @@ function MintFromEvilAddress({
             "px-[8px] py-[4px] rounded-[6px]",
           )}
         >
-          <HoverTextAnimation.Fading text="Mint From Evil Address" />{" "}
+          <HoverTextAnimation.Fading text="Mint For Evil Address" />{" "}
           {/* if u want to add tooltip replace hello to that tooltip  */}
           {/* <Tooltip
             trigger={<PiInfoDuotone />}
