@@ -350,7 +350,10 @@ export default function LotteryPage() {
                   loading={pruneLoading}
                   disabled={fuelCellsWon < 1 || !account.isConnected}
                   loadingText={`${pruneBatch.from}-${pruneBatch.to}/${pruneBatch.total}`}
-                  className={cn("text-[24px]", Gradients.blueToRed)}
+                  className={cn(
+                    "text-[24px] border-[1px] border-agyellow ",
+                    Gradients.blueToRed,
+                  )}
                 >
                   <motion.div
                     variants={{
