@@ -66,7 +66,6 @@ export default function TreasuryPage() {
               Total Fuel Cells:
             </h4>
             {account.isConnected ? (
-              <>
                 <div className="flex items-center justify-between">
                   <span className="text-agwhite text-[32px] font-extrabold">
                     {userMinted}
@@ -90,12 +89,7 @@ export default function TreasuryPage() {
                     <HoverTextAnimation.Fading text="Fuel Cells" />
                   </motion.div>
                 </div>
-              </>
             ) : (
-              // <h4 className="font-bold text-agyellow">
-              //   Total Yield Accumulated:{" "}
-              //   <span className="text-agwhite">{2} $DARK</span>
-              // </h4>
               <span className="text-agwhite text-[16px] font-semibold">
                 Connect your wallet to check your Fuel Cell balance
               </span>
