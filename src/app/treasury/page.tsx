@@ -36,7 +36,7 @@ export default function TreasuryPage() {
         className={cn(
           "flex flex-col items-center justify-center gap-[50px] z-[1]",
           "lg:flex lg:flex-row lg:justify-start lg:items-start gap-[30px]",
-          "pt-[130px] md:pt-[80px]",
+          "md:mt-[32px] pt-[130px] md:pt-[80px]",
         )}
       >
         {/* Left side */}
@@ -66,29 +66,29 @@ export default function TreasuryPage() {
               Total Fuel Cells:
             </h4>
             {account.isConnected ? (
-                <div className="flex items-center justify-between">
-                  <span className="text-agwhite text-[32px] font-extrabold">
-                    {userMinted}
-                  </span>
-                  <motion.div
-                    initial="initial"
-                    whileHover="hover"
-                    className={cn(
-                      Gradients.lightBlue,
-                      Shapes.pill,
-                      "text-agblack font-semibold font-general-sans",
-                    )}
-                  >
-                    <Image
-                      src={IMAGEKIT_ICONS.FUEL_CELL}
-                      alt="Fuel Cell"
-                      width={24}
-                      height={24}
-                      className="w-[24px] h-[24px] mix-blend-multiply rounded-full"
-                    />
-                    <HoverTextAnimation.Fading text="Fuel Cells" />
-                  </motion.div>
-                </div>
+              <div className="flex items-center justify-between">
+                <span className="text-agwhite text-[32px] font-extrabold">
+                  {userMinted}
+                </span>
+                <motion.div
+                  initial="initial"
+                  whileHover="hover"
+                  className={cn(
+                    Gradients.lightBlue,
+                    Shapes.pill,
+                    "text-agblack font-semibold font-general-sans",
+                  )}
+                >
+                  <Image
+                    src={IMAGEKIT_ICONS.FUEL_CELL}
+                    alt="Fuel Cell"
+                    width={24}
+                    height={24}
+                    className="w-[24px] h-[24px] mix-blend-multiply rounded-full"
+                  />
+                  <HoverTextAnimation.Fading text="Fuel Cells" />
+                </motion.div>
+              </div>
             ) : (
               <span className="text-agwhite text-[16px] font-semibold">
                 Connect your wallet to check your Fuel Cell balance

@@ -290,7 +290,7 @@ export default function EvilAddressPage() {
         className={cn(
           "flex flex-col items-center justify-center gap-[50px]",
           "lg:flex lg:flex-row lg:justify-start lg:items-start gap-[30px]",
-          "pt-[170px]",
+          "pt-[170px] lg:pt-[208px]",
         )}
       >
         <div
