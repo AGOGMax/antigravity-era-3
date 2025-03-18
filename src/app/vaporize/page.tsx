@@ -163,7 +163,7 @@ export default function UnwrapPage() {
           <h1
             className={cn(
               Gradients.whiteGradientText,
-              "text-[64px] leading-[64px] font-sans font-extrabold",
+              "text-[64px] leading-[64px] font-sans font-extrabold p-2",
             )}
           >
             Vaporize
@@ -190,14 +190,13 @@ export default function UnwrapPage() {
                     Gradients.tableBlue,
                     Shapes.dataCard,
                     "border-[1px] border-agyellow",
-                    "grid grid-flow-col gap-[8px]",
                     "font-extrabold",
                     "w-full",
-                    "flex justify-between items-center",
+                    "flex justify-between items-center gap-[8px]",
                   )}
                 >
                   <Input
-                    className="w-[10ch]"
+                    className="w-[10ch] !text-[16px] md:!text-[32px]"
                     inputValue={inputValue}
                     setInputValue={setInputValue}
                     max={totalFuelCells}
@@ -210,7 +209,7 @@ export default function UnwrapPage() {
                       className={cn(
                         Gradients.lightBlue,
                         Shapes.pill,
-                        "grid grid-cols-[24px_auto]",
+                        "grid grid-cols-[80px_auto]",
                       )}
                     >
                       <Image
@@ -224,7 +223,7 @@ export default function UnwrapPage() {
                         <HoverTextAnimation.Fading text="Fuel&nbsp;Cells" />
                       </span>
                     </motion.div>
-                    <p className="text-xs font-semibold mt-2 flex items-center gap-x-1">
+                    <p className="text-s font-semibold my-3 flex items-start gap-x-1 bg-opacity-[8%] bg-agyellow px-4 py-2 rounded-lg">
                       Max:{" "}
                       <span className="text-agyellow font-bold flex items-center gap-x-1">
                         {dataLoading ? (

@@ -61,7 +61,7 @@ function ScrapeAndRollOver({
             "px-[8px] py-[4px] rounded-[6px]",
           )}
         >
-          <HoverTextAnimation.Fading text="Scrape & Roll Over" />{" "}
+          <HoverTextAnimation.Fading text="Scrape and Roll Over To Next Jackpot" />{" "}
           {/* <Tooltip
             trigger={<PiInfoDuotone />}
             positionClassName="absolute top-[calc(100%_+_8px)] right-0"
@@ -178,7 +178,7 @@ function MintFromEvilAddress({
             "px-[8px] py-[4px] rounded-[6px]",
           )}
         >
-          <HoverTextAnimation.Fading text="Mint From Evil Address" />{" "}
+          <HoverTextAnimation.Fading text="Mint For Evil Address" />{" "}
           {/* if u want to add tooltip replace hello to that tooltip  */}
           {/* <Tooltip
             trigger={<PiInfoDuotone />}

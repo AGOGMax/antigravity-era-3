@@ -13,6 +13,7 @@ import {
   PiInfoDuotone,
   PiTrophyDuotone,
   PiWrenchDuotone,
+  PiArrowFatDownFill,
 } from "react-icons/pi";
 import { formatUnits } from "viem";
 import { AnimatePresence, motion } from "framer-motion";
@@ -179,7 +180,7 @@ export default function LotteryPage() {
         <div className="flex flex-col gap-[8px] w-full lg:max-w-[40vw]">
           <div
             className={cn(
-              "flex flex-col justify-start items-start gap-[8px]",
+              "flex flex-row justify-start items-center gap-[8px]",
               "p-[8px] rounded-[6px]",
               "bg-agblack/30 backdrop-blur-lg",
               "text-agwhite",
@@ -188,11 +189,11 @@ export default function LotteryPage() {
             <h1
               className={cn(
                 Gradients.whiteGradientText,
-                "text-[32px] leading-[32px] lg:text-[64px] lg:leading-[64px] font-sans font-extrabold",
+                "text-[32px] text-center leading-[32px] lg:text-[64px] lg:leading-[64px] font-sans font-extrabold",
               )}
             >
-              Congratulations!
-              <br /> Scrape your winnings!
+              Check To See If You&apos;ve Won!
+              <PiArrowFatDownFill className="lg:-rotate-90 text-[32px] lg:text-[72px] font-extrabold inline mb-2 ml-[20px]  stroke-[10px] stroke-agyellow" />
             </h1>
           </div>
           <div className="grid grid-flow-row md:grid-flow-col place-items-center gap-2 w-full">
@@ -256,109 +257,106 @@ export default function LotteryPage() {
                 "relative",
               )}
             >
-              <p className="text-agwhite text-[32px] leading-[32px] font-sans w-full">
-                {Number(formatUnits(BigInt(lotteryPayout), 18)).toLocaleString(
-                  "en-US",
-                )}
-              </p>
-              <div className="flex flex-col justify-end items-end gap-[8px]">
-                <motion.div
-                  initial="initial"
-                  whileHover="hover"
-                  className={cn(
-                    Gradients.lightBlue,
-                    Shapes.pill,
-                    "text-agblack font-semibold font-general-sans",
-                  )}
-                >
-                  <Image
-                    src={IMAGEKIT_ICONS.PILL_DARK_X_CLAIMED}
-                    alt="Fuel Cell"
-                    width={24}
-                    height={24}
-                    className="w-[24px] h-[24px] rounded-full"
-                  />
-                  <HoverTextAnimation.Fading text="Dark Matter" />
-                </motion.div>
+              <div className="flex flex-col justify-end items-center gap-[8px]">
+                <div className="flex justify-center items-center gap-[8px]">
+                  <PiTrophyDuotone className="text-[20px]" />
+                  <h3 className="uppercase font-sans tracking-widest text-[16px] uppercase">
+                    Total Amount Won:
+                  </h3>
+                </div>
                 <div
                   onMouseEnter={() => setFuelCellsInfoModal(true)}
                   onMouseLeave={() => setFuelCellsInfoModal(false)}
-                  className="flex justify-center items-center gap-[4px] text-[12px] leading-[12px] font-general-sans font-semibold uppercase"
+                  className="flex flex-col justify-center items-center gap-y-[8px] text-[16px] leading-[12px] font-general-sans py-3 font-extrabold w-full"
                 >
-                  <PiTrophyDuotone className="text-[16px]" />
-                  <span>{fuelCellsWon} Fuel cells won</span>
-                  {/* <PiInfoDuotone className="text-[16px]" /> */}
-                  {/* hidden for a while since implementation is underway  */}
-                  {/* <AnimatePresence>
-                    {fuelCellsInfoModalOpening && (
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className={cn(
-                          Gradients.redToBlue,
-                          "absolute top-full right-0 p-[1px] rounded-[6px] text-agwhite z-50",
-                        )}
-                      >
-                        <div className="flex flex-col justify-center items-center gap-[8px] text-[16px] leading-[16px] py-[8px] px-[16px] rounded-[inherit] bg-agblack normal-case font-normal">
-                          <p className="text-center text-[14px]">
-                            Your Fuel cells winnings in different lotteries
-                          </p>
-                          <div className="grid grid-flow-col gap-[8px] px-[8px] w-full">
-                            {Object.keys(
-                              LotteryAdditionalInfo.lottriesWinnings,
-                            ).map((key) => (
-                              <div
-                                key={key}
-                                className="flex flex-col justify-between items-center"
-                              >
-                                <span className="uppercase text-[12px] font-normal">
-                                  {key}
-                                </span>
-                                <span className="font-bold">
-                                  {
-                                    LotteryAdditionalInfo.lottriesWinnings[
-                                      key as keyof typeof LotteryAdditionalInfo.lottriesWinnings
-                                    ]
-                                  }
-                                </span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence> */}
+                  <div className="flex justify-around items-center w-full">
+                    <p className="font-sans font-extrabold text-[32px]">
+                      {fuelCellsWon}
+                    </p>
+
+                    <motion.div
+                      initial="initial"
+                      whileHover="hover"
+                      className={cn(
+                        Gradients.lightBlue,
+                        Shapes.pill,
+                        "text-agblack font-semibold font-general-sans !text-[16px]",
+                      )}
+                    >
+                      <Image
+                        src={IMAGEKIT_ICONS.FUEL_CELL}
+                        alt="Fuel Cell"
+                        width={24}
+                        height={24}
+                        className="w-[24px] h-[24px] mix-blend-multiply rounded-full"
+                      />
+                      <HoverTextAnimation.Fading text="Fuel Cells" />
+                    </motion.div>
+                  </div>
                 </div>
+
+                <div className="w-[70%] m-auto h-[1px] bg-agyellow"></div>
+
+                <div className="flex justify-around items-center w-full py-3">
+                  <p className="text-agwhite text-[32px] leading-[32px] font-sans">
+                    {Number(
+                      formatUnits(BigInt(lotteryPayout), 18),
+                    ).toLocaleString("en-US")}
+                  </p>
+                  <motion.div
+                    initial="initial"
+                    whileHover="hover"
+                    className={cn(
+                      Gradients.lightBlue,
+                      Shapes.pill,
+                      "text-agblack font-semibold font-general-sans",
+                    )}
+                  >
+                    <Image
+                      src={IMAGEKIT_ICONS.PILL_DARK_X_CLAIMED}
+                      alt="Fuel Cell"
+                      width={24}
+                      height={24}
+                      className="w-[24px] h-[24px] rounded-full"
+                    />
+                    <HoverTextAnimation.Fading text="Dark Matter" />
+                  </motion.div>
+                </div>
+
+                <Button
+                  onClick={handlePruneWinnings}
+                  initial="initial"
+                  whileHover="hover"
+                  loading={pruneLoading}
+                  disabled={fuelCellsWon < 1 || !account.isConnected}
+                  loadingText={`${pruneBatch.from}-${pruneBatch.to}/${pruneBatch.total}`}
+                  className={cn(
+                    "text-[24px] border-[1px] border-agyellow mb-3",
+                    Gradients.blueToRed,
+                  )}
+                >
+                  <motion.div
+                    variants={{
+                      initial: { rotate: 0 },
+                      hover: {
+                        rotate: [
+                          0, -10, -10, -10, -20, -20, -20, -30, -30, -30, 0,
+                        ],
+                        transition: { duration: 1 },
+                      },
+                    }}
+                    className="origin-top-right"
+                  >
+                    <PiWrenchDuotone />
+                  </motion.div>
+                  {fuelCellsWon < 1 || !account.isConnected ? (
+                    "Scrape"
+                  ) : (
+                    <HoverTextAnimation.RollingIn text="Scrape" />
+                  )}
+                </Button>
               </div>
             </div>
-            <Button
-              onClick={handlePruneWinnings}
-              initial="initial"
-              whileHover="hover"
-              loading={pruneLoading}
-              disabled={fuelCellsWon < 1 || !account.isConnected}
-              loadingText={`${pruneBatch.from}-${pruneBatch.to}/${pruneBatch.total}`}
-            >
-              <motion.div
-                variants={{
-                  initial: { rotate: 0 },
-                  hover: {
-                    rotate: [0, -10, -10, -10, -20, -20, -20, -30, -30, -30, 0],
-                    transition: { duration: 1 },
-                  },
-                }}
-                className="origin-top-right"
-              >
-                <PiWrenchDuotone />
-              </motion.div>
-              {fuelCellsWon < 1 || !account.isConnected ? (
-                "Scrape"
-              ) : (
-                <HoverTextAnimation.RollingIn text="Scrape" />
-              )}
-            </Button>
           </form>
           <div
             className={cn(
