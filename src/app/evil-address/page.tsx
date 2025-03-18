@@ -61,7 +61,7 @@ function ScrapeAndRollOver({
             "px-[8px] py-[4px] rounded-[6px]",
           )}
         >
-          <HoverTextAnimation.Fading text="Scrape & Roll Over" />{" "}
+          <HoverTextAnimation.Fading text="Scrape and Roll Over To Next Jackpot" />{" "}
           {/* <Tooltip
             trigger={<PiInfoDuotone />}
             positionClassName="absolute top-[calc(100%_+_8px)] right-0"
