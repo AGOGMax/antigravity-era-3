@@ -51,7 +51,8 @@ export default function Tooltip({
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               className={cn(
-                "hidden lg:flex justify-between items-center",
+                `${action == "click" ? "flex" : "hidden lg:flex"}`,
+                "justify-between items-center",
                 "bg-agblack rounded-[inherit]",
                 "px-[16px] py-[8px]",
               )}
