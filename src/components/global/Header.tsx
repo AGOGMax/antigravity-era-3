@@ -31,6 +31,7 @@ import {
 } from "@/constants";
 import useHeaderStats from "./useHeaderStats";
 import { IoClose } from "react-icons/io5";
+import HeaderContractAddress from "./HeaderContractAddress";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -416,6 +417,7 @@ export default function Header() {
           </div>
         )}
       </div>
+      <HeaderContractAddress />
     </header>
   );
 }
