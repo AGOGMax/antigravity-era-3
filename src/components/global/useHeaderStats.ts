@@ -98,7 +98,7 @@ const useHeaderStats = () => {
     totalYieldClaimedFetched,
   ]);
 
-  return { treasuryDark, journey, userDark };
+  return { treasuryDark, journey, userDark};
 };
 
 export default useHeaderStats;

@@ -7,15 +7,30 @@ interface TooltipProps {
   trigger: React.ReactNode;
   children: React.ReactNode;
   positionClassName: Parameters<typeof cn>[0];
+  action?: "hover" | "click";
+  timeOut?: number;
 }
 
-export default function Tooltip({ trigger, children, positionClassName }: TooltipProps) {
+export default function Tooltip({
+  trigger,
+  children,
+  positionClassName,
+  action = "hover",
+  timeOut = 2000,
+}: TooltipProps) {
   const [open, setOpen] = useState(false);
   return (
     <>
       <motion.div
-        onMouseOver={() => setOpen(true)}
-        onMouseLeave={() => setOpen(false)}
+        onMouseOver={() => action == "hover" && setOpen(true)}
+        onMouseLeave={() => action == "hover" && setOpen(false)}
+        onClick={() => {
+          action == "click" && setOpen(true);
+          action == "click" &&
+            setTimeout(() => {
+              setOpen(false);
+            }, timeOut);
+        }}
       >
         {trigger}
       </motion.div>
