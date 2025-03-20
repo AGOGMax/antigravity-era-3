@@ -5,6 +5,7 @@ import { Provider } from "@/components/RainbowKit";
 import "@rainbow-me/rainbowkit/styles.css";
 import { IMAGEKIT_BACKGROUNDS } from "@/images";
 import { Toaster } from "react-hot-toast";
+import Metrics from "./metrics";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -59,6 +60,7 @@ export default function RootLayout({
           <Toaster />
           {children}
         </Provider>
+        <Metrics />
       </body>
     </html>
   );
