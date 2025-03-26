@@ -1,57 +1,28 @@
 // hook to get details about the lottery data
 
-import React, { ReactNode } from "react";
-import useJackpotContract from "@/abi/Jackpot";
 import useJPMContract from "@/abi/JourneyPhaseManager";
-import { useEffect, useMemo, useState } from "react";
-import {
-  useAccount,
-  useConfig,
-  useReadContract,
-  useReadContracts,
-  useWriteContract,
-} from "wagmi";
+import { useMemo } from "react";
+import { useReadContract } from "wagmi";
 import { useGQLFetch } from "../api/useGraphQLClient";
 import { gql } from "graphql-request";
-import { useRestFetch, useRestPost } from "../api/useRestClient";
-import useDarkContract from "@/abi/Dark";
-import { formatUnits, zeroAddress } from "viem";
+import { useRestFetch } from "../api/useRestClient";
+import { zeroAddress } from "viem";
 
 const tableDataTemplate = [
-  ["big", "10%", 0, 0],
-  ["bigger", "30%", 0, 0],
-  ["biggest", "60%", 0, 0],
+  ["big", 1],
+  ["bigger", 3],
+  ["biggest", 6],
 ];
 
 const useLotteryData = () => {
-  const account = useAccount();
-
   // fetch jackpot dark balance
-  const JackpotContract = useJackpotContract();
-  const DarkContract = useDarkContract();
   const JPMContract = useJPMContract();
-
-  const { data: jackpotBalanceData, isFetched: jackpotBalanceFetched } =
-    useReadContract({
-      address: DarkContract?.address,
-      abi: DarkContract?.abi,
-      functionName: "balanceOf",
-      args: [JackpotContract?.address as `0x${string}`],
-    });
-
-  const { data: jackpotPending, isFetched: jackpotPendingFetched } =
-    useReadContract({
-      address: JackpotContract?.address,
-      abi: JackpotContract?.abi,
-      functionName: "totalPendingPayout",
-    });
 
   const { data: latestPayout } = useGQLFetch<{
     lotteryResults: {
       items: {
         journeyId: string;
         lotteryId: string;
-        payout: string;
       }[];
     };
   }>(
@@ -62,34 +33,12 @@ const useLotteryData = () => {
           items {
             journeyId
             lotteryId
-            payout
           }
         }
       }
     `,
     {},
   );
-
-  // memo to calculate jackpot balance by subtracting jackpotPending from jackpotBalanceData both are BigInt
-  const jackpotBalance: number = useMemo(() => {
-    console.log({ jackpotBalanceData, jackpotPending });
-    if (jackpotBalanceFetched && jackpotPendingFetched) {
-      const jackpotTotal = Number(
-        formatUnits((jackpotBalanceData as bigint) ?? BigInt(0), 18),
-      );
-      console.log({ jackpotTotal });
-      const jackpotPendingTotal = Number(
-        formatUnits((jackpotPending as bigint) ?? BigInt(0), 18),
-      );
-      return jackpotTotal - jackpotPendingTotal;
-    }
-    return 0;
-  }, [
-    jackpotBalanceData,
-    jackpotPending,
-    jackpotBalanceFetched,
-    jackpotPendingFetched,
-  ]);
 
   const { data: journeyData, isFetched: journeyDataFetched } = useGQLFetch<{
     journeyPhaseManager: {
@@ -105,6 +54,18 @@ const useLotteryData = () => {
   `,
     {},
     { enabled: JPMContract.address !== zeroAddress },
+  );
+
+  const { data: evilBonusMapping } = useRestFetch<{
+    big: number;
+    bigger: number;
+    biggest: number;
+  }>(
+    ["Evil bonus in current journey"],
+    `/api/evil-bonus/${
+      journeyData?.journeyPhaseManager?.currentJourneyId ?? 1
+    }`,
+    { enabled: journeyDataFetched },
   );
 
   const { data: activeNFTs, isFetched: fetchedActiveNFTs } = useReadContract({
@@ -125,21 +86,25 @@ const useLotteryData = () => {
     return 0;
   }, [activeNFTs, fetchedActiveNFTs]);
 
+  const jackpotMintedInJourney = useMemo(() => {
+    return Number(totalFuelCells as bigint) * 0.2;
+  }, [totalFuelCells]);
+
   const tableData = useMemo(() => {
-    if (jackpotBalance && totalFuelCells) {
+    if (jackpotMintedInJourney && evilBonusMapping) {
       const result = tableDataTemplate.map((row) => {
-        let totalJackpotBalance = jackpotBalance;
-        const {
-          journeyId,
-          lotteryId: currentLotteryId,
-          payout: currentPayout,
-        } = latestPayout?.lotteryResults?.items[0] ?? {};
+        const [lotteryId, percentageMultiplier] = row;
+        const preBonusPayout =
+          jackpotMintedInJourney * 0.1 * Number(percentageMultiplier);
 
-        const payout = Number(
-          formatUnits(BigInt(currentPayout ?? "0") ?? BigInt(0), 18),
-        );
+        const evilBonus =
+          evilBonusMapping?.[lotteryId as "big" | "bigger" | "biggest"] ?? 0;
 
-        const [lotteryId, percentage, _1, _2] = row;
+        const payoutValue = (preBonusPayout + evilBonus).toFixed(2);
+        console.log("debug, row", preBonusPayout, evilBonus);
+        const { journeyId, lotteryId: currentLotteryId } =
+          latestPayout?.lotteryResults?.items[0] ?? {};
+
         const mappingLotteryToNumber = {
           big: 1,
           bigger: 2,
@@ -151,44 +116,28 @@ const useLotteryData = () => {
           Number(currentLotteryId) >=
             mappingLotteryToNumber[lotteryId as "big"];
 
-        console.log({ journeyId, journeyData });
-
-        if (journeyId === journeyData?.journeyPhaseManager.currentJourneyId) {
-          if (currentLotteryId === "1") {
-            totalJackpotBalance += payout;
-          } else if (currentLotteryId === "2") {
-            totalJackpotBalance += payout + payout / 3;
-          } else if (currentLotteryId === "3") {
-            // 100 = 60 + 30 + 10
-            totalJackpotBalance += payout + payout / 2 + payout / 6;
-          }
-        }
-        const payoutValue =
-          Number(
-            (
-              (totalJackpotBalance * Number(`${percentage}`.split("%")[0])) /
-              100
-            ).toFixed(3),
-          ).toLocaleString() +
-          " " +
-          `(${percentage})`;
-        // const totalFuelCellsSelected = ~~((totalFuelCells * 16) / 1000);
-
         return [
-          lotteryId,
-          paid ? { value: `${payoutValue}`, sticker: "paid" } : payoutValue,
+          `${lotteryId} ${row[1]}x`,
+          preBonusPayout.toFixed(2),
+          evilBonus.toFixed(2),
+          paid
+            ? {
+                value: `${payoutValue}`,
+                sticker: "paid",
+              }
+            : payoutValue,
         ];
       });
       return result;
     }
     return tableDataTemplate.map((row) => {
-      return [row[0], row[2]];
+      return [`${row[0]} ${row[1]}x`, 0, 0, 0];
     });
-  }, [jackpotBalance, totalFuelCells, latestPayout, journeyData]);
+  }, [jackpotMintedInJourney, latestPayout, journeyData, evilBonusMapping]);
 
   return {
-    jackpotBalance: jackpotBalance.toFixed(3), // limit to 3 decimal places
     totalFuelCellsInJourney: totalFuelCells,
+    jackpotMintedInJourney: jackpotMintedInJourney.toFixed(3), // limit to 3 decimal places
     tableData,
   };
 };

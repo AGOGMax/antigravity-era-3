@@ -2,24 +2,20 @@
 
 import Timer from "@/components/global/Timer";
 import Button from "@/components/html/Button";
-import Input from "@/components/html/Input";
 import useLottery from "@/hooks/core/useLottery";
-import { IMAGEKIT_BACKGROUNDS, IMAGEKIT_ICONS } from "@/images";
+import { IMAGEKIT_ICONS } from "@/images";
 import { Gradients, Shapes } from "@/lib/tailwindClassCombinators";
 import { cn } from "@/lib/tailwindUtils";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import {
-  PiInfoDuotone,
   PiTrophyDuotone,
   PiWrenchDuotone,
   PiArrowFatDownFill,
 } from "react-icons/pi";
 import { formatUnits } from "viem";
-import { AnimatePresence, motion } from "framer-motion";
-import SeperateText, {
-  HoverTextAnimation,
-} from "@/components/animation/SeperateText";
+import { motion } from "framer-motion";
+import { HoverTextAnimation } from "@/components/animation/SeperateText";
 import { BACKGROUNDS } from "@/constants";
 import ProgressingStates, { STEPPERS } from "./ProgressingStates";
 import Table from "@/components/html/Table";
@@ -40,13 +36,12 @@ export default function LotteryPage() {
     fuelCellsWon,
     pruneBatch,
     pruneLoading,
-    currentPhase,
     currentJourney,
     lotteriesInfo,
     batchPrune,
   } = useLottery();
 
-  const { jackpotBalance, totalFuelCellsInJourney, tableData } =
+  const { jackpotMintedInJourney, totalFuelCellsInJourney, tableData } =
     useLotteryData();
 
   const handlePruneWinnings = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -97,37 +92,6 @@ export default function LotteryPage() {
     }
   }, [lotteriesInfo]);
 
-  const LotteryAdditionalInfo = {
-    jackpotContractBalance: 10002903892,
-    totalActiveFuelCells: 1232320,
-    amountPerFuelCell: 109293,
-    lottriesWinnings: {
-      big: 100,
-      bigger: 100,
-      biggest: 100,
-    },
-  };
-
-  const [fuelCellsInfoModal, setFuelCellsInfoModal] = useState(false);
-  const [fuelCellsInfoModalOpening, setFuelCellsInfoModalOpening] =
-    useState(false);
-
-  useEffect(() => {
-    // add 300ms delay for modal opening
-    const timeout = setTimeout(() => {
-      if (fuelCellsInfoModal) {
-        setFuelCellsInfoModalOpening(true);
-      } else {
-        setFuelCellsInfoModalOpening(false);
-      }
-    }, 300);
-
-    return () => {
-      clearTimeout(timeout);
-      setFuelCellsInfoModalOpening(false);
-    };
-  }, [fuelCellsInfoModal]);
-
   const tableConfig = {
     header: [
       <div
@@ -137,10 +101,22 @@ export default function LotteryPage() {
         Lottery <br />
       </div>,
       <div
+        key="$Dark header"
+        className="flex flex-col justify-center items-center"
+      >
+        $Dark
+      </div>,
+      <div
+        key="Evil bonus header"
+        className="flex flex-col justify-center items-center"
+      >
+        Evil Bonus
+      </div>,
+      <div
         key="Total payout header"
         className="flex flex-col justify-center items-center"
       >
-        Total payout Value (in $Dark)
+        Next Jackpot
       </div>,
     ],
     data: tableData.map((row) => {
@@ -205,10 +181,11 @@ export default function LotteryPage() {
                 )}
               >
                 <h3 className="uppercase font-sans tracking-widest text-[12px]">
-                  Jackpot contract balance:
+                  Active Fuel Cells in Journey {currentJourney}:
                 </h3>
                 <p className="font-general-sans font-bold text-[18px]">
-                  {Number(jackpotBalance).toLocaleString("en-US")} $Dark
+                  {Number(totalFuelCellsInJourney).toLocaleString("en-US")} Fuel
+                  Cells
                 </p>
               </div>
             </div>
@@ -220,11 +197,11 @@ export default function LotteryPage() {
                 )}
               >
                 <h3 className="uppercase font-sans tracking-widest text-[12px]">
-                  Total Active Fuel Cells:
+                  Jackpot minted in journey {currentJourney}:
                 </h3>
                 <p className="font-general-sans font-bold text-[18px]">
-                  {Number(totalFuelCellsInJourney).toLocaleString("en-US")} Fuel
-                  Cells
+                  {Number(jackpotMintedInJourney).toLocaleString("en-US")} $Dark
+                  Tokens
                 </p>
               </div>
             </div>
@@ -264,11 +241,7 @@ export default function LotteryPage() {
                     Total Amount Won:
                   </h3>
                 </div>
-                <div
-                  onMouseEnter={() => setFuelCellsInfoModal(true)}
-                  onMouseLeave={() => setFuelCellsInfoModal(false)}
-                  className="flex flex-col justify-center items-center gap-y-[8px] text-[16px] leading-[12px] font-general-sans py-3 font-extrabold w-full"
-                >
+                <div className="flex flex-col justify-center items-center gap-y-[8px] text-[16px] leading-[12px] font-general-sans py-3 font-extrabold w-full">
                   <div className="flex justify-around items-center w-full">
                     <p className="font-sans font-extrabold text-[32px]">
                       {fuelCellsWon}
