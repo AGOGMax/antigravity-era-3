@@ -21,6 +21,7 @@ import { getTransactionCount } from "@wagmi/core";
 import { lotteryBuffer } from "@/constants";
 
 const PRUNE_BATCH_SIZE = 50;
+const GAS_LIMIT = 4_000_000; // 4 million gas limit for pruning
 
 const useLottery = (): {
   nextLotteryTimestamp: number;
@@ -368,7 +369,7 @@ const useLottery = (): {
           abi: JackpotContract.abi,
           functionName: "pruneWinnings",
           args: [proofsChunk],
-          // gas: BigInt(GAS_LIMIT),
+          gas: BigInt(GAS_LIMIT),
           nonce,
         });
         nonce++;
